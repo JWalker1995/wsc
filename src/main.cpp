@@ -84,10 +84,12 @@ static void connect_client(lws_sorted_usec_list_t *sul) {
     char *path = const_cast<char *>(i.path);
     char p = *path;
     *path++ = '/';
-    while (p) {
-        std::swap(*path++, p);
+    while (true) {
+        char op = *path;
+        *path++ = p;
+        if (!p) {break;}
+        p = op;
     }
-    *path = '\0';
 
     i.context = lwsContext;
     i.host = i.address;
