@@ -120,7 +120,11 @@ static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, v
         break;
 
     case LWS_CALLBACK_CLIENT_RECEIVE:
-        puts(static_cast<const char *>(in));
+        fputs(static_cast<const char *>(in), stdout);
+        if (lws_is_final_fragment(wsi)) {
+            fputc('\n', stdout);
+            fflush(stdout);
+        }
         break;
 
     case LWS_CALLBACK_CLIENT_CLOSED:
