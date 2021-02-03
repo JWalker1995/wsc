@@ -16,11 +16,11 @@
 #include <ctype.h>
 #include <stdio.h>
 
-const char *argUrl;
+const char *argUrl = 0;
 lws_sorted_usec_list_t sul;
-uint16_t retryCount;
-static struct lws_context *lwsContext;
-static int interrupted;
+uint16_t retryCount = 0;
+static struct lws_context *lwsContext = 0;
+static int interrupted = 0;
 
 /*
  * The retry and backoff policy we want to use for our client connections
@@ -124,6 +124,7 @@ static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, v
         if (lws_is_final_fragment(wsi)) {
             fputc('\n', stdout);
             fflush(stdout);
+            retryCount = 0;
         }
         break;
 
